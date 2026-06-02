@@ -786,27 +786,39 @@
       }
 
       .hero-name {
-        font-size: 2.2rem;
+        font-size: 2rem;
+        word-break: break-word;
+        letter-spacing: -0.02em;
       }
 
       .hero-sub {
         font-size: 0.95rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-tag {
+        font-size: 0.7rem;
       }
 
       .hero-cta {
         justify-content: center;
         flex-direction: column;
         align-items: center;
+        width: 100%;
       }
 
       .hero-cta .btn {
         width: 100%;
+        max-width: 320px;
         text-align: center;
       }
 
       .hero-visa {
         justify-content: center;
         text-align: center;
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
       }
 
       .section-title {
@@ -855,6 +867,44 @@
 
       .hero-grid-line {
         display: none;
+      }
+    }
+
+    /* Extra small screens (≤480px) — narrow phones */
+    @media (max-width: 480px) {
+      #hero {
+        padding: 5.5rem 1rem 2rem;
+      }
+
+      .hero-name {
+        font-size: 1.65rem;
+        line-height: 1.1;
+      }
+
+      .hero-sub {
+        font-size: 0.88rem;
+      }
+
+      .hero-photo {
+        width: 140px;
+        height: 140px;
+        min-width: 140px;
+      }
+
+      .hero-visa {
+        font-size: 0.65rem;
+      }
+
+      section {
+        padding: 3rem 1rem;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+      }
+
+      .about-stats {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -960,19 +1010,19 @@
       <div class="about-stats reveal">
         <div class="stat-card">
           <div class="stat-num">4+</div>
-          <div class="stat-label">Years of experience</div>
+          <div class="stat-label">Years building backend systems</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num">4</div>
-          <div class="stat-label">Companies worked</div>
+          <div class="stat-num">3</div>
+          <div class="stat-label">Countries · SL · MY · UK</div>
         </div>
         <div class="stat-card">
           <div class="stat-num">10+</div>
-          <div class="stat-label">Projects delivered</div>
+          <div class="stat-label">Production projects delivered</div>
         </div>
         <div class="stat-card">
-          <div class="stat-num">25+</div>
-          <div class="stat-label">Developers served via SSO</div>
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Domains worked across</div>
         </div>
       </div>
     </div>
@@ -1078,7 +1128,7 @@
             using Fastify, Prisma ORM, and MySQL — fully documented via Swagger/OpenAPI
           </li>
           <li>
-            <strong>Multi-Tenant Lending Platform — Notification Module:</strong> Designed a multi-channel notification
+            <strong>Document Extraction & Validation System — Notification Module:</strong> Designed a multi-channel notification
             system in NestJS/TypeScript integrating OneSignal for push delivery and a persistent in-app feed —
             supporting real-time delivery across web, iOS, and Android within a multi-tenant architecture
           </li>
