@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sachchin — Software Engineer</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg2: #111118;
+      --bg3: #1a1a24;
+      --border: #2a2a3a;
+      --accent: #6ee7b7;
+      --accent2: #818cf8;
+      --text: #e2e8f0;
+      --muted: #64748b;
+      --card: #13131c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1.2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-family: 'DM Mono', monospace;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 10rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4rem;
+      width: 100%;
+    }
+
+    .hero-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hero-photo {
+      width: 220px;
+      height: 220px;
+      min-width: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--border);
+      box-shadow: 0 0 0 8px rgba(110, 231, 183, 0.06), 0 30px 60px rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      animation: fadeUp 0.6s 0.6s forwards;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      align-self: center;
+    }
+
+    .hero-photo:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 8px rgba(110, 231, 183, 0.12), 0 30px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-grid-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--border), transparent);
+    }
+
+    .hero-grid-line:nth-child(1) {
+      left: 25%;
+    }
+
+    .hero-grid-line:nth-child(2) {
+      left: 50%;
+    }
+
+    .hero-grid-line:nth-child(3) {
+      left: 75%;
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    .orb1 {
+      width: 500px;
+      height: 500px;
+      background: var(--accent);
+      top: -100px;
+      right: -100px;
+    }
+
+    .orb2 {
+      width: 400px;
+      height: 400px;
+      background: var(--accent2);
+      bottom: -100px;
+      left: 10%;
+    }
+
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+
+    .hero-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.3s forwards;
+    }
+
+    .hero-name span {
+      color: var(--accent);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.4s forwards;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.5s forwards;
+    }
+
+    .btn {
+      padding: 0.8rem 2rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-family: 'DM Mono', monospace;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0a0f;
+      font-weight: 500;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background: #4ade80;
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .hero-visa {
+      margin-top: 3rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.4rem 1rem;
+      border-radius: 2px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.6s forwards;
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: 6rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      letter-spacing: -0.02em;
+      margin-bottom: 3rem;
+      line-height: 1.1;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+
+
+    .about-text p {
+      color: var(--muted);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .about-text p strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.5rem;
+      transition: border-color 0.2s;
+    }
+
+    .stat-card:hover {
+      border-color: var(--accent);
+    }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 2.2rem;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── SKILLS ── */
+    #skills {
+      background: var(--bg);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .skill-group {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .skill-group:hover {
+      border-color: var(--accent2);
+      transform: translateY(-3px);
+    }
+
+    .skill-group-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent2);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 1rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .skill-tag {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.25rem 0.75rem;
+      border-radius: 2px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .skill-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── PROJECTS ── */
+    #projects {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .project-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .project-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .project-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .badge-personal {
+      background: rgba(110, 231, 183, 0.1);
+      color: var(--accent);
+      border: 1px solid rgba(110, 231, 183, 0.2);
+    }
+
+    .badge-freelance {
+      background: rgba(129, 140, 248, 0.1);
+      color: var(--accent2);
+      border: 1px solid rgba(129, 140, 248, 0.2);
+    }
+
+    .badge-wip {
+      background: rgba(251, 191, 36, 0.1);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.2);
+    }
+
+    .project-desc {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: auto;
+    }
+
+    .tech-tag {
+      background: var(--bg3);
+      color: var(--muted);
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      border: 1px solid var(--border);
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .project-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .project-link:hover {
+      color: var(--accent);
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience {
+      background: var(--bg);
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 2.5rem;
+      padding-left: 2rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.35rem;
+      top: 0.4rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.2);
+    }
+
+    .timeline-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+    }
+
+    .timeline-role {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.15rem;
+    }
+
+    .timeline-company {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .timeline-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .timeline-points li {
+      font-size: 0.85rem;
+      color: var(--muted);
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .timeline-points li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.7rem;
+    }
+
+    /* ── EDUCATION ── */
+    #education {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+    }
+
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .edu-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.75rem;
+      transition: border-color 0.2s;
+    }
+
+    .edu-card:hover {
+      border-color: var(--accent2);
+    }
+
+    .edu-degree {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .edu-school {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent2);
+      margin-bottom: 0.3rem;
+    }
+
+    .edu-detail {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .contact-inner {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contact-inner .section-label {
+      justify-content: center;
+      display: flex;
+    }
+
+    .contact-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: var(--bg);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s, transform 0.6s;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav {
+        padding: 0.8rem 1.2rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-mobile-toggle {
+        display: block;
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+
+      section {
+        padding: 3.5rem 1.2rem;
+      }
+
+      #hero {
+        padding: 6rem 1.2rem 2.5rem;
+        min-height: auto;
+      }
+
+      .hero-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+      }
+
+      .hero-photo {
+        width: 160px;
+        height: 160px;
+        min-width: 160px;
+        margin: 0 auto;
+        order: -1;
+      }
+
+      .hero-name {
+        font-size: 2.2rem;
+      }
+
+      .hero-sub {
+        font-size: 0.95rem;
+      }
+
+      .hero-cta {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hero-cta .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .hero-visa {
+        justify-content: center;
+        text-align: center;
+      }
+
+      .section-title {
+        font-size: 1.6rem;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .about-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .edu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline {
+        padding-left: 1.5rem;
+      }
+
+      .timeline-item {
+        padding-left: 1.2rem;
+      }
+
+      .contact-links {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .contact-links .btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .hero-grid-line {
+        display: none;
+      }
+    }
+
+    /* Nav mobile menu */
+    .nav-mobile-toggle {
+      display: none;
+    }
+
+    nav.nav-open .nav-links {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 1.5rem;
+      gap: 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══ NAV ══ -->
+  <nav>
+    <div class="nav-logo">SK</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="nav-mobile-toggle" aria-label="Toggle menu">☰</button>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section id="hero">
+    <div class="hero-grid-line"></div>
+    <div class="hero-grid-line"></div>
+    <div class="hero-grid-line"></div>
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+
+    <div class="hero-content">
+      <div class="hero-text">
+        <p class="hero-tag">// Software Engineer · London, UK</p>
+        <h1 class="hero-name">
+          Sachchithananthan<br>
+          <span>Kaneswaran</span>
+        </h1>
+        <p class="hero-sub">
+          Backend-focused Software Engineer with 4+ years building scalable APIs,
+          SaaS platforms, and real-time systems in Node.js, NestJS, and Laravel.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="#contact" class="btn btn-outline">Get In Touch</a>
+          <a href="./assets/sachchithananthan_kaneswaran_resume.pdf" class="btn btn-outline" download>Download CV</a>
+        </div>
+        <div class="hero-visa">🇬🇧 Eligible for UK Graduate Visa · 2-year work authorisation</div>
+      </div>
+      <img src="./assets/profile.png" alt="Sachchithananthan Kaneswaran" class="hero-photo">
+    </div>
+  </section>
+
+  <!-- ══ ABOUT ══ -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p class="section-label">// About</p>
+        <h2 class="section-title">Building systems<br>that scale.</h2>
+        <p>
+          I'm a Software Engineer based in London with <strong>4+ years of experience</strong> building
+          production-grade backend systems — RESTful APIs, microservices, payment
+          integrations, and multi-tenant SaaS platforms — across Sri Lanka, Malaysia,
+          and the UK.
+        </p>
+        <p>
+          I've worked across diverse domains including <strong>financial services</strong>
+          (loan origination, SaaS e-invoicing with Stripe-driven subscription billing),
+          <strong>workforce and identity management</strong> (centralised SSO and internal
+          developer tooling), <strong>e-commerce marketplaces</strong>,
+          <strong>construction workforce and procurement</strong>, and
+          <strong>multi-tenant lending platforms</strong> — gaining experience at
+          <strong>Scienter Technologies</strong>, <strong>YYC taxPOD</strong>,
+          <strong>Boss Boleh</strong>, and currently freelancing with <strong>Keture (Pvt) Ltd</strong>
+          since July 2023. My core stack spans <strong>Node.js</strong>, <strong>NestJS</strong>, <strong>Fastify</strong>, and <strong>Laravel</strong>, with
+          hands-on integrations across AWS, Stripe, OneSignal, and Resend.
+        </p>
+        <p>
+          I'm equally comfortable on the frontend with <strong>React</strong> and
+          <strong>Angular</strong>, and recently completed my <strong>MSc in Data Science</strong>
+          at the University of Hertfordshire (May 2026, awaiting results) — strengthening my
+          expertise in data engineering and scalable systems. I'm now ready to take on
+          Software Engineer and Developer roles in the UK.
+        </p>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-card">
+          <div class="stat-num">4+</div>
+          <div class="stat-label">Years of experience</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Companies worked</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Projects delivered</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">25+</div>
+          <div class="stat-label">Developers served via SSO</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ SKILLS ══ -->
+  <section id="skills">
+    <p class="section-label reveal">// Skills</p>
+    <h2 class="section-title reveal">Tech Stack</h2>
+    <div class="skills-grid">
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Languages</div>
+        <div class="skill-tags">
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">PHP</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">HTML</span>
+          <span class="skill-tag">CSS</span>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Backend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">NestJS</span>
+          <span class="skill-tag">Express.js</span>
+          <span class="skill-tag">Fastify</span>
+          <span class="skill-tag">Laravel</span>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Frontend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">Angular</span>
+          <span class="skill-tag">Vue.js</span>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Databases &amp; Caching</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">MSSQL</span>
+          <span class="skill-tag">Redis</span>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Cloud &amp; DevOps</div>
+        <div class="skill-tags">
+          <span class="skill-tag">AWS EC2</span>
+          <span class="skill-tag">AWS S3</span>
+          <span class="skill-tag">AWS RDS</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">GitHub Actions</span>
+          <span class="skill-tag">Git</span>
+        </div>
+      </div>
+
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Tools &amp; Integrations</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Stripe API</span>
+          <span class="skill-tag">OneSignal</span>
+          <span class="skill-tag">Swagger/OpenAPI</span>
+          <span class="skill-tag">TypeORM</span>
+          <span class="skill-tag">RabbitMQ</span>
+          <span class="skill-tag">Jest</span>
+          <span class="skill-tag">Prisma ORM</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ EXPERIENCE ══ -->
+  <section id="experience">
+    <p class="section-label reveal">// Experience</p>
+    <h2 class="section-title reveal">Work History</h2>
+    <div class="timeline">
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">Jul 2023 — Present</div>
+        <div class="timeline-role">Software Engineer (Freelance)</div>
+        <div class="timeline-company">Keture (Pvt) Ltd · Remote, Sri Lanka</div>
+        <ul class="timeline-points">
+          <li>
+            <strong>Deal Partner — eCommerce Marketplace:</strong> Sole-developed the full backend for a Sri Lankan
+            property and vehicle marketplace in Fastify and MySQL, delivering admin dashboard APIs and public-facing
+            website APIs end-to-end with AWS S3 media management and Resend transactional email integration
+          </li>
+          <li>
+            <strong>Construction Management Platform:</strong> Contributed to database schema design supporting complex
+            operational workflows, then built RESTful APIs for the staff, labour, client, and purchase order modules
+            using Fastify, Prisma ORM, and MySQL — fully documented via Swagger/OpenAPI
+          </li>
+          <li>
+            <strong>Multi-Tenant Lending Platform — Notification Module:</strong> Designed a multi-channel notification
+            system in NestJS/TypeScript integrating OneSignal for push delivery and a persistent in-app feed —
+            supporting real-time delivery across web, iOS, and Android within a multi-tenant architecture
+          </li>
+          <li>
+            Built dynamic email template management APIs integrated with Resend, enabling tenant-level customisable
+            email delivery to both admin and mobile users with white-label branding support
+          </li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">Jan 2024 — Dec 2024</div>
+        <div class="timeline-role">Developer</div>
+        <div class="timeline-company">Boss Boleh Sdn. Bhd. · Remote, Malaysia</div>
+        <ul class="timeline-points">
+          <li>
+            <strong>Database Synchronisation Migration:</strong> Sole-migrated a legacy procedural PHP data sync system
+            to Laravel MVC across two production databases (MySQL + SQL Server) managing 3,000+ company records,
+            reducing data sync time by 45%
+          </li>
+          <li>
+            <strong>SaaS E-Invoicing — Subscription &amp; Payment Backend:</strong> Owned the subscription lifecycle and
+            payment backend for a live SaaS e-invoicing platform serving Malaysian small businesses — building Stripe
+            Checkout APIs and webhook handlers for payment success, renewal, and failure events with database
+            consistency across users and subscriptions
+          </li>
+          <li>
+            Developed UTM tracking APIs to connect marketing campaign data with user registrations and subscription
+            activity, supporting business analytics
+          </li>
+          <li>
+            Collaborated within a 10-person engineering team, integrating Laravel backend APIs with a Vue.js frontend
+            across subscription, billing, and payment flows
+          </li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">May 2023 — Dec 2023</div>
+        <div class="timeline-role">Junior Developer</div>
+        <div class="timeline-company">YYC taxPOD · Remote, Malaysia</div>
+        <ul class="timeline-points">
+          <li>
+            <strong>Centralised SSO Authentication System:</strong> Sole-developed a full Single Sign-On system using
+            Laravel Passport (OAuth 2.0), implementing both the SSO Provider (token server) and SSO Client (delegated
+            auth consumer) as two separate Laravel applications
+          </li>
+          <li>
+            Integrated the SSO solution across 4 internal applications serving 25+ developers — delivering a true
+            single login experience via cookie-based session sharing and token validation flows
+          </li>
+          <li>
+            <strong>Internal Knowledge Sharing Platform:</strong> Sole-developed an internal documentation platform in
+            Laravel with full Markdown support, full-text search across titles and content, and unlimited-depth nested
+            document structure — reducing repeated problem-solving across the engineering team
+          </li>
+        </ul>
+      </div>
+
+      <div class="timeline-item reveal">
+        <div class="timeline-date">Aug 2021 — Mar 2022</div>
+        <div class="timeline-role">Trainee Software Engineer</div>
+        <div class="timeline-company">
+          Scienter Technologies (Pte) Ltd · Hybrid, Sri Lanka
+        </div>
+        <ul class="timeline-points">
+          <li>
+            <strong>Loan Origination System (Financial Services):</strong> Contributed to a regulated financial services
+            Loan Origination System as part of a hybrid engineering team, delivering features across the full stack
+            (Angular, .NET, SQL Server)
+          </li>
+          <li>
+            Built interactive, responsive Angular modules improving the user journey and reducing friction in the loan
+            application completion flow
+          </li>
+          <li>
+            Engineered .NET backend logic for secure form submissions, input validation, and file upload handling
+            within a regulated financial services environment
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ PROJECTS ══ -->
+  <section id="projects">
+    <p class="section-label reveal">// Projects</p>
+    <h2 class="section-title reveal">Featured Work</h2>
+    <div class="projects-grid">
+
+      <!-- Project 1 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-name">Movie Ticket Booking System</div>
+          <span class="project-badge badge-wip">In Development</span>
+        </div>
+        <p class="project-desc">
+          Designing and building a microservices-based cinema booking platform from the ground up
+          using NestJS and TypeScript, covering admin operations across identity, theatre, catalogue,
+          and show scheduling — with booking, payment, and notification services in active development.
+          Architected as 7 independently deployable services within an npm-workspaces monorepo backed
+          by SQL Server, Redis, and RabbitMQ, alongside full design documentation including ADRs,
+          domain rules, API contracts, and deployment strategy.
+        </p>
+        <ul style="list-style:none; display:flex; flex-direction:column;
+             gap:0.4rem; margin-top:0.25rem;">
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Architected a 7-service NestJS system with clear domain boundaries and typed REST
+            inter-service communication, applying a shared-database, service-owned-tables pattern
+            with TypeORM to keep services loosely coupled
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Implemented JWT authentication with short-lived access tokens, Redis-backed
+            refresh-token rotation, and bcrypt hashing — layered with RBAC enforcing multi-tenant
+            isolation across Theatre Admins
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Built theatre, screen, seat, movie catalogue, and show scheduling domains end-to-end —
+            including a movie-request workflow with reviewer notifications and validation
+            preventing overlapping shows on the same screen
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Centralised cross-cutting concerns into shared libraries — guards, interceptors,
+            exception filters, DTOs, and entities — standardising API contracts and error handling
+            platform-wide
+          </li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">NestJS</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Microservices</span>
+          <span class="tech-tag">SQL Server</span>
+          <span class="tech-tag">TypeORM</span>
+          <span class="tech-tag">Redis</span>
+          <span class="tech-tag">RabbitMQ</span>
+          <span class="tech-tag">JWT</span>
+          <span class="tech-tag">Docker</span>
+          <span class="tech-tag">npm Workspaces</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/moviebooking-platform/moviebooking-backend" class="project-link" target="_blank">↗
+            GitHub</a>
+          <span style="font-family:'DM Mono',monospace; font-size:0.72rem;
+                 color:var(--accent); margin-left:auto;">
+            7 services · Monorepo
+          </span>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-name">Stripe Subscription &amp; Billing Platform</div>
+          <span class="project-badge badge-personal">Personal</span>
+        </div>
+        <p class="project-desc">
+          Designed and built an API-only subscription management platform in Laravel 12 with full
+          Stripe integration, covering the end-to-end subscription lifecycle including checkout,
+          cancellation, plan changes, and invoice history. Delivered independently from
+          architecture through to implementation.
+        </p>
+        <ul style="list-style:none; display:flex; flex-direction:column;
+             gap:0.4rem; margin-top:0.25rem;">
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Architected the codebase using the Action-Domain-Responder (ADR) pattern with a
+            domain-driven structure, keeping controllers thin and isolating business operations
+            into single-responsibility Action classes for better maintainability and testability
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Integrated the Stripe PHP SDK to manage Checkout sessions and subscription operations,
+            and implemented signature-verified webhooks to keep the local MySQL database in sync
+            with Stripe in real time
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Implemented asynchronous webhook processing using Laravel's queue system with
+            idempotent Job classes, enabling fast responses to Stripe while ensuring reliable
+            state synchronisation and safe retries on failure
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Applied Laravel Sanctum for token-based API authentication and used DTOs with strict
+            typing to enforce type-safe data flow between application layers
+          </li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">Laravel 12</span>
+          <span class="tech-tag">PHP</span>
+          <span class="tech-tag">Stripe API</span>
+          <span class="tech-tag">Stripe Webhooks</span>
+          <span class="tech-tag">Sanctum</span>
+          <span class="tech-tag">Queues</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">Swagger</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/sachchin06/laravel-stripe-subscription-api" class="project-link" target="_blank">↗
+            GitHub</a>
+          <span style="font-family:'DM Mono',monospace; font-size:0.72rem;
+                 color:var(--accent); margin-left:auto;">
+            ADR Architecture · API-only
+          </span>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-name">Document Extraction &amp; Validation System</div>
+          <span class="project-badge badge-freelance">Company · Keture</span>
+        </div>
+        <p class="project-desc">
+          Designed and built the end-to-end notification subsystem for a multi-tenant SaaS
+          platform, delivering email, push, and in-app notifications through a single
+          orchestration layer. Owned architecture, implementation, unit testing, and API
+          documentation for the module.
+        </p>
+        <ul style="list-style:none; display:flex; flex-direction:column;
+             gap:0.4rem; margin-top:0.25rem;">
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Architected a modular NestJS module with separate services per delivery channel
+            (email, push, in-app, template rendering, configuration), composed behind a thin
+            orchestration service for clean call sites and independent testability
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Integrated Resend (email) and OneSignal (push) behind internal wrappers with
+            configuration-driven enable/disable, so missing credentials degrade gracefully at
+            runtime instead of failing at boot
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Built a custom template renderer with variable interpolation, conditional blocks,
+            and multi-tenant configuration resolution
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Implemented batch persistence and bulk dispatch for one-to-many notifications,
+            secured the CRUD API with RBAC, class-validator DTOs, and encrypted opaque IDs,
+            and isolated per-channel failures with structured logging
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Backed every service with Jest unit tests using mocked dependencies and documented
+            the full API surface via Swagger / OpenAPI
+          </li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">NestJS</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">OneSignal</span>
+          <span class="tech-tag">Resend</span>
+          <span class="tech-tag">TypeORM</span>
+          <span class="tech-tag">MSSQL</span>
+          <span class="tech-tag">RabbitMQ</span>
+          <span class="tech-tag">Jest</span>
+          <span class="tech-tag">Swagger</span>
+        </div>
+        <div class="project-links">
+          <span class="project-link" style="cursor:default; opacity:0.5">Private Codebase</span>
+          <span style="font-family:'DM Mono',monospace; font-size:0.72rem;
+                 color:var(--accent); margin-left:auto;">
+            Multi-tenant · 3 channels
+          </span>
+        </div>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-name">Construction Management System</div>
+          <span class="project-badge badge-freelance">Company · Keture</span>
+        </div>
+        <p class="project-desc">
+          Contributed to a team-built Node.js back-end powering an end-to-end CMS for construction
+          workforce and procurement operations, owning the Staff, Labour, Client, and Purchase Order
+          modules across a relational data layer consumed by both web and mobile clients.
+        </p>
+        <ul style="list-style:none; display:flex; flex-direction:column;
+             gap:0.4rem; margin-top:0.25rem;">
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Designed and delivered 25+ RESTful endpoints across four core modules using Fastify
+            and Prisma ORM, applying JSON Schema validation, pagination, multi-field search,
+            status-based filtering, and soft-delete patterns for consistent API behaviour
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Built the payroll generation service for staff pay-slips, translating configurable
+            statutory and company rates into automated salary calculations — replacing a manual
+            spreadsheet process and reducing month-end effort for the finance team
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Engineered the Purchase Order to Supplier Payment workflow with dynamic order-to-payment
+            linking, mixed cash and cheque settlement, supplier credit reconciliation, and atomic
+            status transitions for reliable financial tracking across sites and suppliers
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Implemented role-based access control on every endpoint, integrated centralised activity
+            logging for full audit traceability, and wired multi-channel SMS and email notifications
+            into key lifecycle events such as payroll issuance and payment confirmation
+          </li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">Fastify</span>
+          <span class="tech-tag">Node.js</span>
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">Prisma ORM</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">REST APIs</span>
+          <span class="tech-tag">JSON Schema</span>
+          <span class="tech-tag">JWT</span>
+          <span class="tech-tag">RBAC</span>
+          <span class="tech-tag">Swagger</span>
+        </div>
+        <div class="project-links">
+          <span class="project-link" style="cursor:default; opacity:0.5">Private Codebase</span>
+          <span style="font-family:'DM Mono',monospace; font-size:0.72rem;
+                 color:var(--accent); margin-left:auto;">
+            25+ endpoints · 4 modules
+          </span>
+        </div>
+      </div>
+
+      <!-- Project 5 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-name">Deal Partner — E-commerce Platform API</div>
+          <span class="project-badge badge-freelance">Company · Keture</span>
+        </div>
+        <p class="project-desc">
+          Designed and built a production-ready e-commerce backend API using Node.js and Fastify,
+          supporting product catalogue management, secure user authentication, and cloud-based
+          media storage. Architected the system to serve both administrative and end-user clients
+          with full API documentation.
+        </p>
+        <ul style="list-style:none; display:flex; flex-direction:column;
+             gap:0.4rem; margin-top:0.25rem;">
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Architected a modular plugin-based system using Fastify's autoload mechanism,
+            separating cross-cutting concerns such as authentication, database access, file
+            uploads, and email delivery into independently testable, reusable components
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Designed a normalised relational schema with Prisma ORM and MySQL, modelling
+            product hierarchies, multi-currency pricing, and content entities with cascading
+            relationships and soft-delete patterns for safe data recovery
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Structured the API around role-based, versioned endpoints to cleanly separate
+            admin and consumer-facing functionality, enabling independent evolution of
+            features without breaking existing client contracts
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Implemented passwordless OTP authentication with JWT-based session management,
+            applying rate limiting and attempt tracking to mitigate brute-force and abuse scenarios
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Integrated AWS S3 for scalable media storage with multipart upload handling,
+            and enforced environment validation at startup to fail fast on misconfiguration
+          </li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">Fastify</span>
+          <span class="tech-tag">Node.js</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Prisma ORM</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">AWS S3</span>
+          <span class="tech-tag">JWT</span>
+          <span class="tech-tag">Resend</span>
+          <span class="tech-tag">Swagger</span>
+        </div>
+        <div class="project-links">
+          <span class="project-link" style="cursor:default; opacity:0.5">Private Codebase</span>
+          <span style="font-family:'DM Mono',monospace; font-size:0.72rem;
+                 color:var(--accent); margin-left:auto;">
+            Plugin-based · Production-ready
+          </span>
+        </div>
+      </div>
+
+      <!-- Project 6 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-name">
+            SaaS E-Invoicing Platform — Subscription &amp; Payment Module
+          </div>
+          <span class="project-badge badge-freelance">
+            Company · Boss Boleh
+          </span>
+        </div>
+        <p class="project-desc">
+          Contributed to a live SaaS e-invoicing and accounting platform for
+          Malaysian small businesses, as part of a 10-person engineering team.
+          Owned the subscription lifecycle and payment integration backend —
+          building APIs and webhook handlers powering Credit Card, e-Wallet,
+          and FPX payments via Stripe.
+        </p>
+        <ul style="list-style:none; display:flex; flex-direction:column;
+             gap:0.4rem; margin-top:0.25rem;">
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Built subscription lifecycle APIs — new subscription creation,
+            payment updates, and automated renewals — integrated with
+            Stripe Checkout Sessions and Stripe Connect
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Implemented webhook-based event handling for payment success,
+            renewal, and failure events — ensuring database consistency
+            across users, subscription records, and payment records
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Developed UTM tracking APIs to associate marketing campaign
+            data with user registrations and subscription activity,
+            supporting business analytics
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Collaborated with the Vue.js frontend team to ensure seamless
+            API integration across subscription, billing, and payment flows
+          </li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">Laravel</span>
+          <span class="tech-tag">PHP</span>
+          <span class="tech-tag">Stripe API</span>
+          <span class="tech-tag">Stripe Webhooks</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">Vue.js</span>
+          <span class="tech-tag">REST APIs</span>
+          <span class="tech-tag">UTM Tracking</span>
+        </div>
+        <div class="project-links">
+          <a href="https://e-invoicing.bossboleh.com/login" class="project-link" target="_blank">
+            ↗ Live Platform
+          </a>
+          <span style="font-family:'DM Mono',monospace; font-size:0.72rem;
+                 color:var(--accent); margin-left:auto;">
+            Team of 10 · Live in Production
+          </span>
+        </div>
+      </div>
+
+      <!-- Project 7 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-name">
+            Database Synchronisation System
+          </div>
+          <span class="project-badge badge-freelance">
+            Company · Boss Boleh
+          </span>
+        </div>
+        <p class="project-desc">
+          Sole-migrated a legacy procedural PHP data synchronisation system
+          into a structured Laravel application, managing reliable data transfer
+          between MySQL and SQL Server databases across 3,000+ company records.
+          Delivered within a 2-month timeline working with undocumented legacy code.
+        </p>
+        <ul style="list-style:none; display:flex; flex-direction:column;
+             gap:0.4rem; margin-top:0.25rem;">
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Refactored tightly coupled procedural PHP into modular Laravel
+            MVC architecture — separating business logic, database operations,
+            and request handling across Service classes, Traits, and Controllers
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Configured simultaneous dual-database connections (MySQL + SQL Server)
+            and implemented the DTO pattern to standardise data mapping and
+            synchronisation between source and target databases
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Applied Eloquent ORM for maintainable target database operations
+            and Query Builder / raw SQL for performance-sensitive source queries,
+            reducing data sync time by 45%
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Analysed and refactored undocumented legacy code within a constrained
+            timeline, delivering a maintainable, scalable system for internal use
+          </li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">Laravel</span>
+          <span class="tech-tag">PHP</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">SQL Server</span>
+          <span class="tech-tag">Eloquent ORM</span>
+          <span class="tech-tag">DTO Pattern</span>
+          <span class="tech-tag">MVC</span>
+          <span class="tech-tag">Service Layer</span>
+        </div>
+        <div class="project-links">
+          <span class="project-link" style="cursor:default; opacity:0.5;">
+            Private Codebase
+          </span>
+          <span style="font-family:'DM Mono',monospace; font-size:0.72rem;
+                 color:var(--accent); margin-left:auto;">
+            3,000+ records · Delivered in 2 months
+          </span>
+        </div>
+      </div>
+
+
+      <!-- Project 8 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-name">Centralised SSO Authentication System</div>
+          <span class="project-badge badge-freelance">Company · YYC taxPOD</span>
+        </div>
+        <p class="project-desc">
+          Sole-developed a full Single Sign-On system from scratch — both the OAuth 2.0
+          token server (SSO Provider) and the delegated auth consumer (SSO Client) — as
+          two separate Laravel applications. Integrated across 4 internal systems serving
+          25+ developers with a single login experience.
+        </p>
+
+        <!-- Key highlights — visible on the card -->
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:0.4rem; margin-top:0.25rem;">
+          <li style="font-size:0.82rem; color:var(--muted); padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent); font-size:0.7rem;">→</span>
+            Built SSO Provider with Laravel Passport (OAuth 2.0) — token generation, cookie session sharing, admin
+            dashboard
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted); padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent); font-size:0.7rem;">→</span>
+            Implemented two auth flows: first-time login (token redirect) and subsequent logins (cookie validation)
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted); padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent); font-size:0.7rem;">→</span>
+            Applied Cache-Aside pattern for local user sync and multi-layered security with no client-side password
+            storage
+          </li>
+        </ul>
+
+        <div class="project-tech">
+          <span class="tech-tag">Laravel</span>
+          <span class="tech-tag">PHP 8.1</span>
+          <span class="tech-tag">OAuth 2.0</span>
+          <span class="tech-tag">Laravel Passport</span>
+          <span class="tech-tag">Sanctum</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">REST APIs</span>
+        </div>
+        <div class="project-links">
+          <span class="project-link" style="cursor:default; opacity:0.5;">Private Codebase</span>
+          <span style="font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--accent); margin-left:auto;">
+            4 apps · 25+ developers
+          </span>
+        </div>
+      </div>
+
+      <!-- Project 9 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-name">Internal Knowledge Sharing Platform</div>
+          <span class="project-badge badge-freelance">Company · YYC taxPOD</span>
+        </div>
+        <p class="project-desc">
+          Sole-developed an internal documentation platform enabling the engineering
+          team to write, share, and discover notes, code snippets, and bug fix records
+          using Markdown. Delivered end-to-end — from authentication to a searchable,
+          nested knowledge base — reducing repeated problem-solving across the organisation.
+        </p>
+        <ul style="list-style:none; display:flex; flex-direction:column;
+             gap:0.4rem; margin-top:0.25rem;">
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Built full-text search across document titles and content, allowing
+            developers to quickly find relevant notes, bug fixes, and code snippets
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Implemented unlimited-depth nested document structure with
+            parent-child relationships, enabling organised, hierarchical
+            documentation across the team
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Delivered Markdown support with code snippet rendering, enabling
+            developers to document technical findings in a structured, readable format
+          </li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">Laravel</span>
+          <span class="tech-tag">PHP</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">Markdown</span>
+          <span class="tech-tag">Blade</span>
+        </div>
+        <div class="project-links">
+          <span class="project-link" style="cursor:default; opacity:0.5;">Private Codebase</span>
+          <span style="font-family:'DM Mono',monospace; font-size:0.72rem;
+                 color:var(--accent); margin-left:auto;">
+            Internal Tool · Completed
+          </span>
+        </div>
+      </div>
+
+
+
+      <!-- Project 10 -->
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div class="project-name">
+            Loan Origination System
+          </div>
+          <span class="project-badge badge-wip">
+            Internship
+          </span>
+        </div>
+        <p class="project-desc">
+          Contributed to a financial services Loan Origination System as a
+          Trainee Software Engineer, working across the full stack in a hybrid
+          team environment. Delivered frontend modules and backend logic as part
+          of a larger engineering team.
+        </p>
+        <ul style="list-style:none; display:flex; flex-direction:column;
+             gap:0.4rem; margin-top:0.25rem;">
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Built interactive, responsive Angular modules improving the
+            user journey and reducing friction in the loan application
+            completion flow
+          </li>
+          <li style="font-size:0.82rem; color:var(--muted);
+               padding-left:1rem; position:relative;">
+            <span style="position:absolute; left:0; color:var(--accent);
+                   font-size:0.7rem;">→</span>
+            Engineered .NET backend logic for secure form submissions,
+            input validation, and file upload handling within a
+            regulated financial services environment
+          </li>
+        </ul>
+        <div class="project-tech">
+          <span class="tech-tag">Angular</span>
+          <span class="tech-tag">.NET</span>
+          <span class="tech-tag">SQL Server</span>
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">C#</span>
+        </div>
+        <div class="project-links">
+          <span class="project-link" style="cursor:default; opacity:0.5;">
+            Private Codebase
+          </span>
+          <span style="font-family:'DM Mono',monospace; font-size:0.72rem;
+                 color:var(--accent); margin-left:auto;">
+            Internship · Sri Lanka
+          </span>
+        </div>
+      </div>
+
+
+    </div>
+  </section>
+
+  <!-- ══ EDUCATION ══ -->
+  <section id="education">
+    <p class="section-label reveal">// Education</p>
+    <h2 class="section-title reveal">Qualifications</h2>
+    <div class="edu-grid reveal">
+      <div class="edu-card">
+        <div class="edu-degree">MSc Data Science</div>
+        <div class="edu-school">University of Hertfordshire, UK</div>
+        <div class="edu-detail">Jan 2025 — May 2026</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-degree">BSc (Hons) Software Engineering</div>
+        <div class="edu-school">University of Kelaniya, Sri Lanka</div>
+        <div class="edu-detail">Feb 2019 — Jul 2023 · GPA 3.5 / 4.0</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CONTACT ══ -->
+  <section id="contact">
+    <div class="contact-inner">
+      <p class="section-label">// Contact</p>
+      <h2 class="section-title reveal">Let's work together.</h2>
+      <p class="contact-desc reveal">
+        Open to mid-level Software Engineer and Full-Stack Developer roles across the UK.
+        Feel free to reach out via email or connect on LinkedIn.
+      </p>
+      <div class="contact-links reveal">
+        <a href="mailto:sachchin06@gmail.com" class="btn btn-primary">sachchin06@gmail.com</a>
+        <a href="tel:+447438664432" class="btn btn-outline">+44 7438 664432</a>
+        <a href="https://www.linkedin.com/in/sachchin-ram/" class="btn btn-outline" target="_blank">LinkedIn</a>
+        <a href="https://github.com/sachchin06" class="btn btn-outline" target="_blank">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer>
+    Sachchithananthan Kaneswaran · Software Engineer · London, UK · 2026
+  </footer>
+
+  <script>
+    // Scroll-triggered reveal animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) {
+          el.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Mobile nav toggle
+    const navToggle = document.querySelector('.nav-mobile-toggle');
+    const nav = document.querySelector('nav');
+    navToggle.addEventListener('click', () => {
+      nav.classList.toggle('nav-open');
+      navToggle.textContent = nav.classList.contains('nav-open') ? '✕' : '☰';
+    });
+
+    // Close mobile nav when a link is clicked
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('nav-open');
+        navToggle.textContent = '☰';
+      });
+    });
+  </script>
+
+</body>
+
+</html>
