@@ -36,31 +36,28 @@ const titleId = `project-${project.id}`;
     <p class="company">{company}</p>
     <p class="summary">{summary}</p>
     <TagList tags={tags} label={`Technologies used in ${title}`} />
-    <ul class="links">
-      <li>
-        <a href={href} aria-label={`Read more about ${title}`}>Read more</a>
-      </li>
-      {
-        links.live && (
-          <li>
-            <a href={links.live} aria-label={`Live site for ${title}`}>
-              <Icon name="external" />
-              Live site
-            </a>
-          </li>
-        )
-      }
-      {
-        links.repo && (
-          <li>
-            <a href={links.repo} aria-label={`Source code for ${title}`}>
-              <Icon name="code" />
-              Source code
-            </a>
-          </li>
-        )
-      }
-    </ul>
+    {
+      (links.live || links.repo) && (
+        <ul class="links">
+          {links.live && (
+            <li>
+              <a href={links.live} aria-label={`Live site for ${title}`}>
+                <Icon name="external" />
+                Live site
+              </a>
+            </li>
+          )}
+          {links.repo && (
+            <li>
+              <a href={links.repo} aria-label={`Source code for ${title}`}>
+                <Icon name="code" />
+                Source code
+              </a>
+            </li>
+          )}
+        </ul>
+      )
+    }
   </div>
 </article>
 
