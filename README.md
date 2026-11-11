@@ -49,4 +49,4 @@ All text lives in [`content/`](content/). Each file's front matter is validated 
 
 ### Add the CV
 
-Save the PDF as `public/sachchithananthan-kaneswaran-cv.pdf`. The CV button in the Hero links to it automatically; until then it shows a TODO.
+Save the PDF as `public/sachchithananthan-kaneswaran-cv.pdf`. A CV button appears in the Hero on the next build. Until the file exists, no button is shown.
