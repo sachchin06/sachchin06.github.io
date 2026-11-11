@@ -3,7 +3,7 @@ name: "Sachchithananthan Kaneswaran"
 headline: "Software Engineer"
 tagline: "Back-end engineer building APIs, payment flows and data systems in Laravel, Node.js and TypeScript."
 location: "London, UK"
-# workRights: "Right to work in the UK, no sponsorship needed"
+workRights: "Right to work in the UK, no sponsorship needed"
 ---
 
 I'm a software engineer in London, working mostly on the back end. Since 2023 I've built REST APIs, data models and integrations for products in mortgage lending, invoicing and payments, construction management and internal tooling, using Laravel, Node.js (Fastify and NestJS) and TypeScript with MySQL and SQL Server.
