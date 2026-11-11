@@ -1,2 +1,22 @@
-versions
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs and local env
+npm-debug.log*
+.env
+.env.*
+
+# editor and OS
 .vscode
+.DS_Store
+Thumbs.db
+
+# old local folder
+versions
+
+# local reports
+lighthouse/
