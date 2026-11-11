@@ -4,7 +4,7 @@ Source for https://sachchin06.github.io, built with [Astro](https://astro.build)
 
 ## Run locally
 
-Requires Node.js 22.12 or newer.
+Requires Node.js 22.22 or newer.
 
 ```sh
 npm install

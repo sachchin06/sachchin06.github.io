@@ -37,7 +37,7 @@ Personal portfolio for Sachchithananthan Kaneswaran, built with Astro (static ou
 - `npm run build`: `astro check` (types and content schemas) then build to `dist/`
 - `npm run preview`: serve the built site
 
-Astro is pinned to 7.3.x because 7.4+ needs Node 22.22 or newer and the local machine runs Node 22.16. CI uses Node 22 (latest). After upgrading local Node, `npm install astro@latest` is safe.
+Astro 7.4+ needs Node 22.22.0 or newer (some dependencies need at least 22.19). Local development and CI both use Node 22.
 
 ## Deployment
 
