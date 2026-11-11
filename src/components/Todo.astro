@@ -1,0 +1,11 @@
+---
+// A visible marker for content that still needs adding. Search the built
+// site or the source for "TODO" to find them all.
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<span class="todo">TODO: {text}</span>

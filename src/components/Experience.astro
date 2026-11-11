@@ -1,0 +1,220 @@
+---
+import { getCollection } from 'astro:content';
+import Todo from './Todo.astro';
+import { getSingle } from '../lib/content';
+
+const experience = await getSingle('experience');
+const { roles, education } = experience.data;
+
+// Map project slugs to titles so each role can link to its projects.
+const projects = new Map((await getCollection('projects')).map((p) => [p.id, p.data.title]));
+---
+
+<section id="experience" class="section" aria-labelledby="experience-title">
+  <div class="container">
+    <h2 id="experience-title" class="section-title">Experience</h2>
+
+    <ol class="timeline">
+      {
+        roles.map((role) => (
+          <li class="role reveal">
+            <div class="role-head">
+              <h3>{role.title}<span class="at">, {role.company}</span></h3>
+              <p class="meta">
+                <span>{role.period}</span>
+                <span aria-hidden="true">·</span>
+                <span>{role.type}</span>
+                <span aria-hidden="true">·</span>
+                <span>{role.location}</span>
+              </p>
+            </div>
+            <p class="summary">{role.summary}</p>
+            {role.highlights.length > 0 && (
+              <ul class="highlights">
+                {role.highlights.map((h) => (
+                  <li>{h}</li>
+                ))}
+              </ul>
+            )}
+            {role.projects.length > 0 && (
+              <div class="role-projects">
+                <span class="label">Projects:</span>
+                <ul>
+                  {role.projects.map((slug) => (
+                    <li>
+                      {projects.has(slug) ? (
+                        <a href={`/projects/${slug}/`}>{projects.get(slug)}</a>
+                      ) : (
+                        <Todo text={`no project file for "${slug}"`} />
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+
+    {
+      education.length > 0 && (
+        <div class="education reveal">
+          <h3 class="education-title">Education</h3>
+          <ul class="education-list">
+            {education.map((e) => (
+              <li>
+                <p class="degree">
+                  {e.degree}, {e.institution}
+                </p>
+                <p class="meta">
+                  <span>{e.period}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{e.location}</span>
+                </p>
+                {e.result && <p class="result">{e.result}</p>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: 48rem;
+  }
+
+  .role {
+    position: relative;
+    padding-left: 1.5rem;
+    padding-bottom: 2.25rem;
+    border-left: 2px solid var(--border);
+  }
+
+  .role:last-child {
+    padding-bottom: 0.5rem;
+  }
+
+  /* Timeline marker */
+  .role::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 0.45rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .at {
+    font-weight: 500;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 0.45rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .summary {
+    margin-bottom: 0.75rem;
+  }
+
+  .highlights {
+    padding-left: 1.15rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .highlights li + li {
+    margin-top: 0.35rem;
+  }
+
+  .highlights li::marker {
+    color: var(--muted);
+  }
+
+  .role-projects {
+    font-size: 0.95rem;
+  }
+
+  .role-projects ul {
+    display: inline;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .role-projects li {
+    display: inline;
+  }
+
+  .role-projects li:not(:last-child)::after {
+    content: ', ';
+  }
+
+  .label {
+    color: var(--muted);
+    margin-right: 0.35rem;
+  }
+
+  .education {
+    margin-top: 3rem;
+    max-width: 48rem;
+  }
+
+  .education-title {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+  }
+
+  .education-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (min-width: 48rem) {
+    .education-list {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .education-list li {
+    padding: 1rem 1.15rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  .degree {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .education-list .meta {
+    margin-bottom: 0.25rem;
+  }
+
+  .result {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+</style>

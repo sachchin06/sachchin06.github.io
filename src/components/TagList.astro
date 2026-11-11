@@ -1,0 +1,49 @@
+---
+interface Props {
+  tags: string[];
+  label?: string;
+  size?: 'sm' | 'md';
+}
+
+const { tags, label, size = 'sm' } = Astro.props;
+---
+
+{
+  tags.length > 0 && (
+    <ul class:list={['tags', size]} aria-label={label}>
+      {tags.map((t) => (
+        <li>{t}</li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    font-family: var(--font-mono);
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    line-height: 1.4;
+  }
+
+  .sm li {
+    font-size: 0.75rem;
+    padding: 0.15rem 0.5rem;
+  }
+
+  .md li {
+    font-size: 0.825rem;
+    padding: 0.25rem 0.6rem;
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+import Icon from './Icon.astro';
+import Todo from './Todo.astro';
+import { getSingle, hasCv, CV_PATH, CV_FILE } from '../lib/content';
+
+const about = await getSingle('about');
+const contact = await getSingle('contact');
+const { name, headline, tagline, location, workRights } = about.data;
+const cvReady = hasCv();
+---
+
+<section class="hero" aria-labelledby="hero-name">
+  <div class="container">
+    <h1 id="hero-name">{name}</h1>
+    <p class="headline">{headline}</p>
+    <p class="tagline">{tagline}</p>
+
+    <p class="location">
+      <Icon name="pin" />
+      <span>{location}</span>
+    </p>
+    {workRights ? <p class="work-rights">{workRights}</p> : <p class="work-rights"><Todo text="add workRights to content/about.md" /></p>}
+
+    <div class="actions">
+      {
+        cvReady ? (
+          <a class="btn btn-primary" href={CV_PATH}>
+            <Icon name="file" />
+            CV (PDF)
+          </a>
+        ) : (
+          <span class="cv-missing">
+            <span class="btn btn-disabled">
+              <Icon name="file" />
+              CV (PDF)
+            </span>
+            <Todo text={`add public/${CV_FILE}`} />
+          </span>
+        )
+      }
+      <a class="btn" href={contact.data.github}>
+        <Icon name="github" />
+        GitHub
+      </a>
+      <a class="btn" href={contact.data.linkedin}>
+        <Icon name="linkedin" />
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: 3.5rem 3.5rem;
+  }
+
+  @media (min-width: 48rem) {
+    .hero {
+      padding-block: 6rem 5rem;
+    }
+  }
+
+  h1 {
+    font-size: clamp(2rem, 1.4rem + 3vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 0.75rem;
+  }
+
+  .headline {
+    font-size: clamp(1.15rem, 1rem + 0.8vw, 1.5rem);
+    font-weight: 550;
+    margin-bottom: 0.75rem;
+  }
+
+  .tagline {
+    max-width: 40rem;
+    font-size: 1.075rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .location {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+
+  .location :global(svg) {
+    width: 1rem;
+    height: 1rem;
+    color: var(--muted);
+  }
+
+  .work-rights {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .cv-missing {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-disabled,
+  .btn-disabled:hover {
+    cursor: not-allowed;
+    border-style: dashed;
+    border-color: var(--muted);
+    color: var(--text);
+  }
+</style>
