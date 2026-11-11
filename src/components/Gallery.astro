@@ -1,0 +1,79 @@
+---
+import { Picture } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  screenshots: CollectionEntry<'projects'>['data']['screenshots'];
+}
+
+const { screenshots } = Astro.props;
+---
+
+{
+  screenshots.length > 0 && (
+    <section class="gallery" aria-labelledby="screenshots-title">
+      <h2 id="screenshots-title">Screenshots</h2>
+      <ul>
+        {screenshots.map((shot) => (
+          <li>
+            <figure>
+              <a href={shot.src.src} aria-label={`Open full-size image: ${shot.alt}`}>
+                <Picture
+                  src={shot.src}
+                  alt={shot.alt}
+                  formats={['avif', 'webp']}
+                  widths={[480, 800, 1200]}
+                  sizes="(min-width: 48rem) 42rem, 100vw"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </a>
+              {shot.caption && <figcaption>{shot.caption}</figcaption>}
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .gallery {
+    margin-top: 3rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 2rem;
+    max-width: 42rem;
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  a {
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  a:hover {
+    border-color: var(--accent);
+  }
+
+  figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+</style>

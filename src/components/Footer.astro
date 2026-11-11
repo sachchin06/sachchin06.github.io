@@ -1,0 +1,37 @@
+---
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; {year} {name}</p>
+    <p>
+      Built with Astro. <a href="https://github.com/sachchin06/sachchin06.github.io">Source on GitHub</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding-block: 2rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+  }
+
+  p {
+    margin: 0;
+  }
+</style>

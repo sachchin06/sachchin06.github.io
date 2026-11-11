@@ -1,0 +1,22 @@
+---
+import { render } from 'astro:content';
+import { getSingle } from '../lib/content';
+
+const about = await getSingle('about');
+const { Content } = await render(about);
+---
+
+<section id="about" class="section" aria-labelledby="about-title">
+  <div class="container reveal">
+    <h2 id="about-title" class="section-title">About</h2>
+    <div class="prose about-body">
+      <Content />
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-body :global(p) {
+    font-size: 1.05rem;
+  }
+</style>

@@ -1,0 +1,54 @@
+---
+import TagList from './TagList.astro';
+import { getSingle } from '../lib/content';
+
+const skills = await getSingle('skills');
+---
+
+<section id="skills" class="section" aria-labelledby="skills-title">
+  <div class="container reveal">
+    <h2 id="skills-title" class="section-title">Skills</h2>
+    <dl class="groups">
+      {
+        skills.data.groups.map((group) => (
+          <div class="group">
+            <dt>{group.name}</dt>
+            <dd>
+              <TagList tags={group.items} size="md" />
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<style>
+  .groups {
+    margin: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .group {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  @media (min-width: 48rem) {
+    .group {
+      grid-template-columns: 13rem 1fr;
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+  }
+
+  dt {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  dd {
+    margin: 0;
+  }
+</style>

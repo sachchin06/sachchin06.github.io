@@ -1,0 +1,44 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { getSortedProjects } from '../lib/content';
+
+const projects = await getSortedProjects();
+---
+
+<section id="projects" class="section" aria-labelledby="projects-title">
+  <div class="container">
+    <h2 id="projects-title" class="section-title">Projects</h2>
+    <ul class="grid">
+      {
+        projects.map((project) => (
+          <li class="reveal">
+            <ProjectCard project={project} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 48rem) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 68rem) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

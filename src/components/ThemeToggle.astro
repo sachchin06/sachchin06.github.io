@@ -1,0 +1,94 @@
+---
+// Switches between light and dark and remembers the choice. The initial
+// theme is set by the inline script in BaseLayout before first paint.
+---
+
+<button class="theme-toggle" type="button" aria-pressed="false">
+  <svg class="icon-moon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+  </svg>
+  <svg class="icon-sun" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+  </svg>
+  <span class="sr-only">Dark theme</span>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+  }
+
+  /* The toggle needs JavaScript; without it the system theme applies. */
+  :global(html:not(.js)) .theme-toggle {
+    display: none;
+  }
+
+  .theme-toggle:hover {
+    color: var(--text);
+    background: var(--surface);
+  }
+
+  .theme-toggle svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  /* Show the moon in light mode, the sun in dark mode. */
+  .icon-sun {
+    display: none;
+  }
+
+  :global(html[data-theme='dark']) .icon-sun {
+    display: block;
+  }
+
+  :global(html[data-theme='dark']) .icon-moon {
+    display: none;
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
+
+  const sync = () => {
+    button?.setAttribute('aria-pressed', String(root.dataset.theme === 'dark'));
+  };
+
+  if (button) {
+    sync();
+
+    button.addEventListener('click', () => {
+      const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem('theme', next);
+      } catch {
+        // Storage blocked: the choice lasts for this page only.
+      }
+      sync();
+    });
+
+    // With no saved choice, keep following the system setting.
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      let stored: string | null = null;
+      try {
+        stored = localStorage.getItem('theme');
+      } catch {}
+      if (!stored) {
+        root.dataset.theme = e.matches ? 'dark' : 'light';
+        sync();
+      }
+    });
+  }
+</script>
