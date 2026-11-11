@@ -28,7 +28,7 @@ All text lives in [`content/`](content/). Each file's front matter is validated 
 ### Add a project
 
 1. Copy an existing file in `content/projects/`, e.g. `sso-server.md`, to `content/projects/my-project.md`. The filename becomes the URL: `/projects/my-project/`.
-2. Edit the front matter and body. `featured: true` puts it in the first group of cards; `order` sorts within each group (lower first).
+2. Edit the front matter and body. Only projects with `featured: true` get a card on the home page, sorted by `order` (lower first). Every project gets a detail page either way, and can be linked from a role in Experience.
 3. To link it from a role, add `"my-project"` to that role's `projects` list in `content/experience.md`.
 
 ### Add a cover image or screenshots

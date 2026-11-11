@@ -11,12 +11,13 @@ export async function getSingle<C extends SingleCollection>(name: C): Promise<Co
   return entry as CollectionEntry<C>;
 }
 
-/** Projects with featured ones first, then by `order`. */
-export async function getSortedProjects() {
-  const projects = await getCollection('projects');
-  return projects.sort(
-    (a, b) => Number(b.data.featured) - Number(a.data.featured) || a.data.order - b.data.order,
-  );
+/**
+ * Projects shown on the home page: only `featured: true`, sorted by `order`.
+ * Every project still gets a detail page and can be linked from Experience.
+ */
+export async function getFeaturedProjects() {
+  const projects = await getCollection('projects', (p) => p.data.featured);
+  return projects.sort((a, b) => a.data.order - b.data.order);
 }
 
 /** "+44 7438 664432" -> "+447438664432" for tel: links. */

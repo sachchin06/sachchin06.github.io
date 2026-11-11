@@ -1,8 +1,8 @@
 ---
 import ProjectCard from './ProjectCard.astro';
-import { getSortedProjects } from '../lib/content';
+import { getFeaturedProjects } from '../lib/content';
 
-const projects = await getSortedProjects();
+const projects = await getFeaturedProjects();
 ---
 
 <section id="projects" class="section" aria-labelledby="projects-title">
